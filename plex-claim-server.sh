@@ -13,7 +13,7 @@ function getPref {
 function setPref {
   local key="$1"
   local value="$2"
-  
+
   count="$(grep -c "${key}" "${prefFile}")"
   count=$(($count + 0))
   if [[ $count > 0 ]]; then
@@ -23,13 +23,17 @@ function setPref {
   fi
 }
 
+# These were in the original file — it won't be used at all and thankfully, nothing else uses this besides the line below.
 home="$(echo ~plex)"
 pmsApplicationSupportDir="${PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR:-${home}/Library/Application Support}"
-prefFile="${pmsApplicationSupportDir}/Plex Media Server/Preferences.xml"
+
+# This has been modified to use the fixed directory where Plex lives on a Synology NAS.
+prefFile="/volume1/PlexMediaServer/AppData/Plex Media Server/Preferences.xml"
 
 PLEX_CLAIM="$1"
 
 # Create empty shell pref file if it doesn't exist already
+# We're also changing the preferences file ownership to PlexMediaServer.
 if [ ! -e "${prefFile}" ]; then
   echo "Creating pref shell"
   mkdir -p "$(dirname "${prefFile}")"
@@ -37,7 +41,7 @@ if [ ! -e "${prefFile}" ]; then
 <?xml version="1.0" encoding="utf-8"?>
 <Preferences/>
 EOF
-  chown -R plex:plex "$(dirname "${prefFile}")"
+  sudo chown -R PlexMediaServer:PlexMediaServer "$(dirname "${prefFile}")"
 fi
 
 # Setup Server's client identifier
@@ -67,10 +71,9 @@ if [ ! -z "${PLEX_CLAIM}" ] && [ -z "${token}" ]; then
         -H 'X-Plex-Device: Linux' \
         "https://plex.tv/api/claim/exchange?token=${PLEX_CLAIM}")"
   token="$(echo "$loginInfo" | sed -n 's/.*<authentication-token>\(.*\)<\/authentication-token>.*/\1/p')"
-  
+
   if [ "$token" ]; then
     setPref "PlexOnlineToken" "${token}"
     echo "Plex Media Server successfully claimed"
   fi
 fi
-
