@@ -8,10 +8,12 @@ The script in this git repo just uses the same mechanics that are used by the of
 
 ## Usage
 
+NOTE: This version of this repository has been specifically updated for Synology NAS running Plex in DSM 7.x. See the [differences in the script here](https://github.com/jerieljan/plex-claim-server/blame/master/plex-claim-server.sh)
+
 1. Make the script executable: `chmod +x plex-claim-server.sh`
 2. Get your Plex Claim Code (it's only valid some minutes): https://www.plex.tv/claim/
-3. Claim your server: `sudo -u plex ./plex-claim-server.sh "$YOUR_CLAIM_CODE"`
-4. Restart your Plex Media Server, e.g. with `sudo systemctl restart plexmediaserver`
+3. Claim your server: `sudo ./plex-claim-server.sh "$YOUR_CLAIM_CODE"`
+4. Restart your Plex Media Server, e.g., go to Package Center, locate Plex Media Server, Stop then Start.
 
 ## Advanced Usage
 
