@@ -1,10 +1,15 @@
-# Claim your Linux Plex server from the shell
+# Claim your Linux Plex server from the shell (Synology + Plex via Package Center)
 
 ## Introduction
 
 The Plex Media Server setup requires you to link your new server to your plex.tv account. This is done by initially accessing your server from "the same network" [1]. This can be a little "complicated" on a remote headless server if you have never heard of an "ssh tunnel" before.
 
 The script in this git repo just uses the same mechanics that are used by the official Plex Docker image [2]. In fact, the script is just a refactored version of the Docker script.
+
+## Pre-requisites
+
+- This guide assumes you're running Plex on a Synology NAS (otherwise, go to the original version of this script — this fork is just specifically for this case)
+- This guide also assumes you can SSH into your Synology NAS, and perform `root` commands.
 
 ## Usage
 
